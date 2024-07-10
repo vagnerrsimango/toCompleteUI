@@ -11,10 +11,11 @@ export const {
 } = NextAuth({
   providers: [
     GitHub({
-      clientId: "27a2a62c3dcf71a8b8ae",
-      clientSecret: "ad3162c50841c7e5db1685746aeafa1e090713da",
+      clientId: "9b2e50166a21d930eb10",
+      clientSecret: "d62c7badde7c1f3b08d765b703cbdb993adc090d",
     }),
   ],
+  debug: true,
   adapter: PrismaAdapter(db),
   callbacks: {
     async session({ session, user }: any) {

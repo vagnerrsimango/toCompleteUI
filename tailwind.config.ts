@@ -19,6 +19,9 @@ const config = {
     },
     extend: {
       colors: {
+        gray: {
+          googleBG: "#F1F3F4"
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

@@ -17,8 +17,9 @@ import {
   ArrowUpDown,
   ChevronDown,
   List,
-  ListOrderedIcon,
+  Eye,
   MoreHorizontal,
+  Table2Icon,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -32,6 +33,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ITaskStatus } from "@/interface/task.interface";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -44,6 +46,7 @@ import {
 import { toHumanDate } from "@/utils/date";
 import { Card } from "../ui/card";
 import Link from "next/link";
+import { useState } from "react";
 
 export type Task = {
   id: string;
@@ -151,28 +154,30 @@ export const columns: ColumnDef<Task>[] = [
     },
     cell: ({ row }) => {
       const status = row.getValue("status");
+
       let color = "";
       switch (status) {
-        case "completo":
+        case "COMPLETED":
           color = "green";
           break;
-        case "pendente":
-          color = "red";
+        case "IN_PROGRESS":
+          color = "amber";
           break;
-        case "em progresso":
-          color = "yellow";
+        case "NOT_STARTED":
+          color = "gray";
           break;
         default:
-          color = "gray"; // Cor default
+          color = "red"; // Cor default
       }
       return (
         <div
-          className="flex justify-center w-8 h-8"
+          className="flex items-center justify-center w-12 h-12 rounded-full shadow-md"
           style={{
-            borderRadius: "50%",
             backgroundColor: color,
           }}
-        ></div>
+        >
+          <div className="w-8 h-8 rounded-full bg-white"></div>
+        </div>
       );
     },
   },
@@ -247,15 +252,10 @@ export const columns: ColumnDef<Task>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(task.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
+            <DropdownMenuItem>Atualizar Estado</DropdownMenuItem>
+            <DropdownMenuItem>Editar Tarefa</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>Remover Tarefa</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -291,6 +291,8 @@ export default function DataTableDemo({ data }: { data: Task[] }) {
     },
   });
 
+  const [selectedTab, setSelectedTab] = useState("table");
+
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
@@ -304,12 +306,15 @@ export default function DataTableDemo({ data }: { data: Task[] }) {
         />
         <DropdownMenu>
           <div className="flex ml-4 items-center py-4">
-            <Link href="/">
-              <List className="h-6 w-6 cursor-pointer mr-4" />
-            </Link>
-            <Link href="/">
-              <ListOrderedIcon className="h-6 w-6 cursor-pointer" />
-            </Link>
+            <List
+              onClick={() => setSelectedTab("table")}
+              className="h-6 w-6 cursor-pointer mr-4"
+            />
+
+            <Table2Icon
+              onClick={() => setSelectedTab("cards")}
+              className="h-6 w-6 cursor-pointer"
+            />
           </div>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -337,70 +342,176 @@ export default function DataTableDemo({ data }: { data: Task[] }) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="flex justify-between space-x-6">
-        {/* Por Iniciar */}
-        <div className="flex-1 bg-gray-700 rounded-lg shadow-lg p-6 m-4 ">
-          <div className="text-white">
-            <h2 className="text-xl font-extrabold mb-4">Por Iniciar</h2>
-            {data
-              .filter((task) => task.status === "pendente")
-              .map((task) => (
-                <div key={task.id} className="mb-4">
-                  <p className="text-gray-300 text-lg font-bold">{task.name}</p>
-                  <p className="text-gray-300">
-                    Início em: {task.start_at.toLocaleDateString()}
-                  </p>
-                  <p className="text-gray-300">
-                    Término em: {task.end_at.toLocaleDateString()}
-                  </p>
-                  <hr className="border-white my-2" />
-                </div>
-              ))}
+      {selectedTab === "cards" && (
+        <div className="flex justify-between space-x-6">
+          <div className="flex-1 h-screen bg-gray-googleBG rounded-lg shadow-lg px-12 p-6 m-4 ">
+            <div className="text-white">
+              <h2 className="text-xl font-extrabold mb-4 underline-offset-8 ">
+                Por Iniciar
+              </h2>
+              {data
+                .filter((task) => task.status === "pendente")
+                .map((task) => (
+                  <div key={task.id} className="mb-4">
+                    <p className="text-gray-300 text-lg font-bold">
+                      {task.name}{" "}
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>Atualizar Estado</DropdownMenuItem>
+                          <DropdownMenuItem>Editar Tarefa</DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem>Remover Tarefa</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </p>
+                    <p className="text-gray-300">
+                      Início em: {task.start_at.toLocaleDateString()}
+                    </p>
+                    <p className="text-gray-300">
+                      Término em: {task.end_at.toLocaleDateString()}
+                    </p>
+                    <hr className="border-white my-2" />
+                  </div>
+                ))}
+            </div>
           </div>
-        </div>
 
-        {/* Em Acção */}
-        <div className="flex-1 bg-gray-800 rounded-lg shadow-lg p-6 m-4 ">
-          <div className="text-white">
-            <h2 className="text-xl font-extrabold mb-4">Em Ação</h2>
-            {data
-              .filter((task) => task.status === "em progresso")
-              .map((task) => (
-                <div key={task.id} className="mb-4">
-                  <p className="text-gray-300 text-lg font-bold">{task.name}</p>
-                  <p className="text-gray-300">
-                    Início em: {task.start_at.toLocaleDateString()}
-                  </p>
-                  <p className="text-gray-300">
-                    Término em: {task.end_at.toLocaleDateString()}
-                  </p>
-                  <hr className="border-white my-2" />
-                </div>
-              ))}
+          <div className="flex-1 bg-gray-800 rounded-lg shadow-lg p-6 m-4 ">
+            <div className="text-white">
+              <h2 className="text-xl font-extrabold mb-4 underline-offset-8">
+                Em Ação
+              </h2>
+              {data
+                .filter((task) => task.status === "em progresso")
+                .map((task) => (
+                  <div key={task.id} className="mb-4">
+                    <p className="text-gray-300 text-lg font-bold">
+                      {task.name}{" "}
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>Atualizar Estado</DropdownMenuItem>
+                          <DropdownMenuItem>Editar Tarefa</DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem>Remover Tarefa</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </p>
+                    <p className="text-gray-300">
+                      Início em: {task.start_at.toLocaleDateString()}
+                    </p>
+                    <p className="text-gray-300">
+                      Término em: {task.end_at.toLocaleDateString()}
+                    </p>
+                    <hr className="border-white my-2" />
+                  </div>
+                ))}
+            </div>
           </div>
-        </div>
 
-        {/* Tarefas Completas */}
-        <div className="flex-1 bg-gray-900 rounded-lg shadow-lg p-6 m-4 ">
-          <div className="text-white">
-            <h2 className="text-xl font-extrabold mb-4">Completas</h2>
-            {data
-              .filter((task) => task.status === "completo")
-              .map((task) => (
-                <div key={task.id} className="mb-4">
-                  <p className="text-gray-300 text-lg font-bold">{task.name}</p>
-                  <p className="text-gray-300">
-                    Início em: {task.start_at.toLocaleDateString()}
-                  </p>
-                  <p className="text-gray-300">
-                    Término em: {task.end_at.toLocaleDateString()}
-                  </p>
-                  <hr className="border-white my-2" />
-                </div>
-              ))}
+          <div className="flex-1 bg-gray-900 rounded-lg shadow-lg p-6 m-4 ">
+            <div className="text-white">
+              <h2 className="text-xl font-extrabold mb-4 underline-offset-8">
+                Completas
+              </h2>
+              {data
+                .filter((task) => task.status === "completo")
+                .map((task) => (
+                  <div key={task.id} className="mb-4">
+                    <p className="text-gray-300 text-lg font-bold">
+                      {task.name}{" "}
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>Atualizar Estado</DropdownMenuItem>
+                          <DropdownMenuItem>Editar Tarefa</DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem>Remover Tarefa</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </p>
+                    <p className="text-gray-300">
+                      Início em: {task.start_at.toLocaleDateString()}
+                    </p>
+                    <p className="text-gray-300">
+                      Término em: {task.end_at.toLocaleDateString()}
+                    </p>
+                    <hr className="border-white my-2" />
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
+      {selectedTab === "table" && (
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      )}
 
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="space-x-2">

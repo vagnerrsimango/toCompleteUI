@@ -22,7 +22,6 @@ export default async function Home() {
   if (session) {
     return redirect("/category");
   } else {
-    return redirect("/category");
   }
 
   return (
@@ -38,9 +37,7 @@ export default async function Home() {
           <Button className="flex justify-center items-center  gap-2 w-full">
             <GoogleIcon /> Google{" "}
           </Button>
-          <Button className="flex justify-center items-center  gap-2 w-full">
-            <GoogleIcon /> Categorias <Link href="/category" />
-          </Button>
+
           <form action={SignInWithGithub}>
             <Button
               className="flex justify-center items-center  gap-2 w-full"

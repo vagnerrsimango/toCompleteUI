@@ -17,7 +17,7 @@ export default async function CategoryPage() {
   // await new Promise((resolve, reject) => {
   //   setTimeout(resolve, 8000);
   // });
-  // const categories = await indexCategories();
+  const categories = await indexCategories();
   return (
     <div className="flex justify-center items-center w-full sm:h-screen my-4">
       <Card className="flex flex-col  items-center sm:w-1/2 sm:h-3/4 sm:border border-none ">
@@ -27,9 +27,9 @@ export default async function CategoryPage() {
           </CardTitle>
 
           <CustomDialog
-            trigger="ADD +"
+            trigger="ADICIONAR CATEGORIA"
             title="Criar Categoria"
-            description="crie as catego"
+            description="crie as categorias"
           >
             <CategoryCreateForm />
           </CustomDialog>
@@ -39,9 +39,13 @@ export default async function CategoryPage() {
         </CardHeader>
         <Suspense fallback={<CategorySkeleton />}>
           <CardContent className="grid sm:grid-cols-3 gap-4 sm:gap-8 items-center">
-            {/* {categories.map((category: { id: string; name: string }) => ( */}
-            <CategoryItem name="nome" id="categorico" key="1234" />
-            {/* ))} */}
+            {categories.map((category: { id: string; name: string }) => (
+              <CategoryItem
+                id={category.id}
+                name={category.name}
+                key={category.id}
+              />
+            ))}
           </CardContent>
         </Suspense>
       </Card>

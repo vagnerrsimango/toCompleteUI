@@ -19,19 +19,23 @@ interface CategoryProps {
 }
 export default function CategoryItem({ id, name }: CategoryProps) {
   return (
-    <Card className="flex items-center justify-center bg-secondary flex-col">
+    <Card className="flex items-center justify-center bg-secondary flex-col transform hover:scale-105 transition-transform duration-300">
       <Link
         href={paths.showCategory(id)}
         className="flex  justify-center items-center "
       >
         <CardContent className="p-8">
-          <p className="text-xl font-semibold">{name}</p>
+          <p className="text-3xl font-extrabold text-gray-900">{name}</p>
         </CardContent>
       </Link>
       <CardFooter className="h-5">
         <form action={removeCategory}>
           <Input name="id" value={id} className="hidden" />
-          <Button type="submit" variant={"ghost"}>
+          <Button
+            type="submit"
+            variant={"ghost"}
+            className="text-gray-900 hover:text-red-500 transition duration-300"
+          >
             <TrashIcon />
           </Button>
         </form>
