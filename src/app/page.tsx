@@ -30,7 +30,7 @@ export default async function Home() {
         <CardHeader className="flex justify-center items-center">
           <CardTitle className="font-semibold">TO COMPLETE</CardTitle>
           <CardDescription>
-            Use as contas do google/facebook para ter acesso
+            Use as contas do google ou facebook para ter acesso
           </CardDescription>
         </CardHeader>
         <CardContent className="grid sm:grid-cols-2  gap-2">
