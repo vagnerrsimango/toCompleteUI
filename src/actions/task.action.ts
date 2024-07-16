@@ -7,6 +7,7 @@ import { db } from "@/utils/db";
 import { revalidatePath } from "next/cache";
 import paths from "@/utils/paths";
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
 interface storeTaskFormState {
   errors: {
@@ -28,7 +29,7 @@ export async function storeTask(
 ): Promise<storeTaskFormState> {
   const name = formData.get("name");
 
-  const session = await auth();
+  const session = await getServerSession();
 
   const inputSchema = z.object({
     name: z

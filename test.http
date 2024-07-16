@@ -1,0 +1,13 @@
+### Sign IN with credencials
+
+POST http://localhost:3000/api/signin
+content-type: application/json
+
+{
+    "email": "ahj"
+}
+
+### Sign TEST
+
+GET http://localhost:3000/api/greet
+content-type: application/json

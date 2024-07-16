@@ -13,6 +13,7 @@ import { getCategoryById } from "@/db/queries/category";
 import { indexTasks } from "@/db/queries/task";
 import { auth } from "@/utils/auth";
 import { PlusCircle } from "lucide-react";
+import { getServerSession } from "next-auth";
 import { Suspense } from "react";
 
 type TaskPageProps = {
@@ -24,7 +25,7 @@ type TaskPageProps = {
 export default async function TaskPage({ params }: TaskPageProps) {
   const data = await indexTasks(params.id);
   const category = await getCategoryById(params.id);
-  const session = await auth();
+  const session = await getServerSession();
   console.log(session);
 
   const dummyData = [

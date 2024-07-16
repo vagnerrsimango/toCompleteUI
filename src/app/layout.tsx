@@ -4,6 +4,7 @@ import "./globals.css";
 import NavBar from "@/components/common/NavBar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SessionProvider } from "next-auth/react";
+import AuthProvider from "@/providers/AuthProvider";
 
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
@@ -20,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
-        <SessionProvider>
+        <AuthProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -30,7 +31,7 @@ export default function RootLayout({
             <NavBar />
             {children}
           </ThemeProvider>
-        </SessionProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -1,55 +1,51 @@
-import { SignInWithGithub } from "@/actions/auth.action";
-import { GithubIcon, GoogleIcon } from "@/components/common/icons";
-import { Button } from "@/components/ui/button";
+import CategoryItem from "@/components/category/CategoryItem";
+import { CategorySkeleton } from "@/components/category/CategorySkeleton";
+import CategoryCreateForm from "@/components/category/CreateFrom";
+import CustomDialog from "@/components/common/CustomDialog";
+
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { auth } from "@/utils/auth";
+import { indexCategories } from "@/db/queries/category";
+import { Suspense } from "react";
 
-import { GoogleLogo, GithubLogo } from "@phosphor-icons/react";
-import CategoryPage from "./category/page";
-import { redirect } from "next/navigation";
-import Link from "next/link";
-
-export default async function Home() {
-  const session = await auth();
-
-  if (session) {
-    return redirect("/category");
-  } else {
-  }
-
+export default async function HomePage() {
+  const categories = await indexCategories();
   return (
-    <main className="flex justify-center items-center h-screen">
-      <Card className=" w-[400px]">
-        <CardHeader className="flex justify-center items-center">
-          <CardTitle className="font-semibold">TO COMPLETE</CardTitle>
+    <div className="flex justify-center items-center w-full sm:h-screen my-4">
+      <Card className="flex flex-col  items-center sm:w-1/2 sm:h-3/4 sm:border border-none ">
+        <CardHeader className="grid grid-col-2 gap-2 items-center">
+          <CardTitle>
+            <h1>Lista de Categorias de tarefas </h1>
+          </CardTitle>
+
+          <CustomDialog
+            trigger="ADICIONAR CATEGORIA"
+            title="Criar Categoria"
+            description="crie as categorias"
+          >
+            <CategoryCreateForm />
+          </CustomDialog>
           <CardDescription>
-            Use as contas do google ou facebook para ter acesso
+            Tenha acesso a todos agrupamentos de tarefas
           </CardDescription>
         </CardHeader>
-        <CardContent className="grid sm:grid-cols-2  gap-2">
-          <Button className="flex justify-center items-center  gap-2 w-full">
-            <GoogleIcon /> Google{" "}
-          </Button>
-
-          <form action={SignInWithGithub}>
-            <Button
-              className="flex justify-center items-center  gap-2 w-full"
-              type="submit"
-            >
-              <GithubIcon /> Github{" "}
-            </Button>
-          </form>
-        </CardContent>
-
-        <CardFooter></CardFooter>
+        <Suspense fallback={<CategorySkeleton />}>
+          <CardContent className="grid sm:grid-cols-3 gap-4 sm:gap-8 items-center">
+            {categories.map((category: { id: string; name: string }) => (
+              <CategoryItem
+                id={category.id}
+                name={category.name}
+                key={category.id}
+              />
+            ))}
+          </CardContent>
+        </Suspense>
       </Card>
-    </main>
+    </div>
   );
 }
