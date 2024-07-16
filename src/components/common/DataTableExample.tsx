@@ -47,6 +47,7 @@ import { toHumanDate } from "@/utils/date";
 import { Card } from "../ui/card";
 import Link from "next/link";
 import { useState } from "react";
+import CardActivity from "../task/CardActivity";
 
 export type Task = {
   id: string;
@@ -343,121 +344,7 @@ export default function DataTableDemo({ data }: { data: Task[] }) {
         </DropdownMenu>
       </div>
       {selectedTab === "cards" && (
-        <div className="flex justify-between space-x-6">
-          <div className="flex-1 h-screen bg-gray-googleBG rounded-lg shadow-lg px-12 p-6 m-4 ">
-            <div className="text-white">
-              <h2 className="text-xl font-extrabold mb-4 underline-offset-8 ">
-                Por Iniciar
-              </h2>
-              {data
-                .filter((task) => task.status === "pendente")
-                .map((task) => (
-                  <div key={task.id} className="mb-4">
-                    <p className="text-gray-300 text-lg font-bold">
-                      {task.name}{" "}
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem>Atualizar Estado</DropdownMenuItem>
-                          <DropdownMenuItem>Editar Tarefa</DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem>Remover Tarefa</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </p>
-                    <p className="text-gray-300">
-                      Início em: {task.start_at.toLocaleDateString()}
-                    </p>
-                    <p className="text-gray-300">
-                      Término em: {task.end_at.toLocaleDateString()}
-                    </p>
-                    <hr className="border-white my-2" />
-                  </div>
-                ))}
-            </div>
-          </div>
-
-          <div className="flex-1 bg-gray-800 rounded-lg shadow-lg p-6 m-4 ">
-            <div className="text-white">
-              <h2 className="text-xl font-extrabold mb-4 underline-offset-8">
-                Em Ação
-              </h2>
-              {data
-                .filter((task) => task.status === "em progresso")
-                .map((task) => (
-                  <div key={task.id} className="mb-4">
-                    <p className="text-gray-300 text-lg font-bold">
-                      {task.name}{" "}
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem>Atualizar Estado</DropdownMenuItem>
-                          <DropdownMenuItem>Editar Tarefa</DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem>Remover Tarefa</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </p>
-                    <p className="text-gray-300">
-                      Início em: {task.start_at.toLocaleDateString()}
-                    </p>
-                    <p className="text-gray-300">
-                      Término em: {task.end_at.toLocaleDateString()}
-                    </p>
-                    <hr className="border-white my-2" />
-                  </div>
-                ))}
-            </div>
-          </div>
-
-          <div className="flex-1 bg-gray-900 rounded-lg shadow-lg p-6 m-4 ">
-            <div className="text-white">
-              <h2 className="text-xl font-extrabold mb-4 underline-offset-8">
-                Completas
-              </h2>
-              {data
-                .filter((task) => task.status === "completo")
-                .map((task) => (
-                  <div key={task.id} className="mb-4">
-                    <p className="text-gray-300 text-lg font-bold">
-                      {task.name}{" "}
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem>Atualizar Estado</DropdownMenuItem>
-                          <DropdownMenuItem>Editar Tarefa</DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem>Remover Tarefa</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </p>
-                    <p className="text-gray-300">
-                      Início em: {task.start_at.toLocaleDateString()}
-                    </p>
-                    <p className="text-gray-300">
-                      Término em: {task.end_at.toLocaleDateString()}
-                    </p>
-                    <hr className="border-white my-2" />
-                  </div>
-                ))}
-            </div>
-          </div>
-        </div>
+       <CardActivity/>
       )}
 
       {selectedTab === "table" && (

@@ -78,6 +78,7 @@ export default async function TaskPage({ params }: TaskPageProps) {
           <CardContent className="w-full">
             <DataTableDemo data={data} />
           </CardContent>
+      
         </Suspense>
       </Card>
     </div>
