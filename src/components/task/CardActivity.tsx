@@ -3,251 +3,87 @@
  * @see https://v0.dev/t/sCj1N0NqHPt
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+
+const tasks = {
+  inProgress: [
+    { title: "Desenvolvimento de Landing Page", orderedBy: "Afonso Muchanga", executors: ["Vagner Caetano", "Victor Panguene"], priority: "Alta", priorityVariant: "destructive" },
+    { title: "Integração de API", orderedBy: "Victor Panguene", executors: ["Elton Vilanculo"], priority: "Média", priorityVariant: "secondary" },
+    { title: "Criação de Mockups", orderedBy: "Elton Vilanculo", executors: ["Victor Panguene"], priority: "Baixa", priorityVariant: "default" },
+  ],
+  completed: [
+    { title: "Auditoria Financeira", orderedBy: "Vagner Caetano", executors: ["Afonso Muchanga", "Elton Vilanculo"], priority: "Alta", priorityVariant: "destructive" },
+    { title: "Manutenção do Backend", orderedBy: "Afonso Muchanga", executors: ["Elton Vilanculo"], priority: "Alta", priorityVariant: "destructive" },
+    { title: "Redesign do Website", orderedBy: "Vagner Caetano", executors: ["Victor Panguene"], priority: "Média", priorityVariant: "secondary" },
+    { title: "Implementação de Funcionalidades", orderedBy: "Victor Panguene", executors: ["Vagner Caetano"], priority: "Baixa", priorityVariant: "default" },
+  ],
+  overdue: [
+    { title: "Relatório de Desempenho", orderedBy: "Vagner Caetano", executors: ["Afonso Muchanga"], priority: "Alta", priorityVariant: "destructive" },
+    { title: "Correção de Bugs", orderedBy: "Victor Panguene", executors: ["Elton Vilanculo", "Vagner Caetano"], priority: "Média", priorityVariant: "secondary" },
+    { title: "Ajustes no Design", orderedBy: "Elton Vilanculo", executors: ["Victor Panguene"], priority: "Média", priorityVariant: "secondary" },
+    { title: "Revisão de Código", orderedBy: "Afonso Muchanga", executors: ["Vagner Caetano"], priority: "Baixa", priorityVariant: "default" },
+  ],
+};
 
 export default function CardActivity() {
   return (
     <div className="p-4 w-full">
-   
-      {/* <div className="flex items-center justify-between pb-4 border-b">
-        <div className="flex items-center space-x-4">
-          <Button variant="outline" className="flex items-center space-x-2">
-          
-            <span>By Status</span>
-          </Button>
-          <Link href="#" className="text-muted-foreground" prefetch={false}>
-            Properties
-          </Link>
-          <Link href="#" className="text-muted-foreground" prefetch={false}>
-            Group by Status
-          </Link>
-          <Link href="#" className="text-muted-foreground" prefetch={false}>
-            Filter
-          </Link>
-          <Link href="#" className="text-muted-foreground" prefetch={false}>
-            Sort
-          </Link>
-          <div className="relative">
-           
-            <Input type="search" placeholder="Search" className="pl-8" />
-          </div>
-        </div>
-        <Button className="flex items-center space-x-2">
-          <span>New</span>
-        
-        </Button>
-      </div> */}
       <div className="grid grid-cols-3 gap-4 py-4">
-        <div>
-          <div className="flex items-center justify-between pb-2">
-            <Badge variant="secondary">In Progress</Badge>
-            <span>3</span>
-          </div>
-          <Card className="mb-4">
-            <CardContent>
-              <div className="flex items-center space-x-2">
-           
-                <h2 className="text-lg font-semibold">Brand Colors</h2>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Avatar>
-                  <AvatarImage src="/placeholder-user.jpg" />
-                  <AvatarFallback>SB</AvatarFallback>
-                </Avatar>
-                <span>Sam Baldwin</span>
-              </div>
-              <Badge variant="destructive">High</Badge>
-            </CardContent>
-          </Card>
-          <Card className="mb-4">
-            <CardContent>
-              <div className="flex items-center space-x-2">
-       
-                <h2 className="text-lg font-semibold">Help Center Redesign</h2>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Avatar>
-                  <AvatarImage src="/placeholder-user.jpg" />
-                  <AvatarFallback>DT</AvatarFallback>
-                </Avatar>
-                <span>David Tibbitts</span>
-              </div>
-              <Badge variant="secondary">Medium</Badge>
-            </CardContent>
-          </Card>
-          <Card className="mb-4">
-            <CardContent>
-              <div className="flex items-center space-x-2">
- 
-                <h2 className="text-lg font-semibold">Standardize Typography</h2>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Avatar>
-                  <AvatarImage src="/placeholder-user.jpg" />
-                  <AvatarFallback>AL</AvatarFallback>
-                </Avatar>
-                <span>Andrea Lim</span>
-              </div>
-              <Badge variant="default">Low</Badge>
-            </CardContent>
-          </Card>
-          <Button variant="outline" className="w-full">
-            New
-          </Button>
-        </div>
-        <div>
-          <div className="flex items-center justify-between pb-2">
-            <Badge variant="secondary">Completed</Badge>
-            <span>6</span>
-          </div>
-          <Card className="mb-4">
-            <CardContent>
-              <div className="flex items-center space-x-2">
-            
-                <h2 className="text-lg font-semibold">Illustrated Portraits</h2>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Avatar>
-                  <AvatarImage src="/placeholder-user.jpg" />
-                  <AvatarFallback>CR</AvatarFallback>
-                </Avatar>
-                <span>Camille Ricketts</span>
-              </div>
-              <Badge variant="destructive">High</Badge>
-            </CardContent>
-          </Card>
-          <Card className="mb-4">
-            <CardContent>
-              <div className="flex items-center space-x-2">
-           
-                <h2 className="text-lg font-semibold">Mobile Dropdown</h2>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Avatar>
-                  <AvatarImage src="/placeholder-user.jpg" />
-                  <AvatarFallback>NM</AvatarFallback>
-                </Avatar>
-                <span>Nate Martins</span>
-              </div>
-              <Badge variant="destructive">High</Badge>
-            </CardContent>
-          </Card>
-          <Card className="mb-4">
-            <CardContent>
-              <div className="flex items-center space-x-2">
-             
-                <h2 className="text-lg font-semibold">Illustrated Facebook Ads</h2>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Avatar>
-                  <AvatarImage src="/placeholder-user.jpg" />
-                  <AvatarFallback>NM</AvatarFallback>
-                </Avatar>
-                <span>Nate Martins</span>
-              </div>
-              <Badge variant="secondary">Medium</Badge>
-            </CardContent>
-          </Card>
-          <Card className="mb-4">
-            <CardContent>
-              <div className="flex items-center space-x-2">
-        
-                <h2 className="text-lg font-semibold">Font Exploration</h2>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Avatar>
-                  <AvatarImage src="/placeholder-user.jpg" />
-                  <AvatarFallback>AL</AvatarFallback>
-                </Avatar>
-                <span>Andrea Lim</span>
-              </div>
-              <Badge variant="default">Low</Badge>
-            </CardContent>
-          </Card>
-          <Button variant="outline" className="w-full">
-            New
-          </Button>
-        </div>
-        <div>
-          <div className="flex items-center justify-between pb-2">
-            <Badge variant="secondary">Overdue</Badge>
-            <span>4</span>
-          </div>
-          <Card className="mb-4">
-            <CardContent>
-              <div className="flex items-center space-x-2">
-            
-                <h2 className="text-lg font-semibold">Guidelines for Visuals</h2>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Avatar>
-                  <AvatarImage src="/placeholder-user.jpg" />
-                  <AvatarFallback>CE</AvatarFallback>
-                </Avatar>
-                <span>Cory Etzkorn</span>
-              </div>
-              <Badge variant="destructive">High</Badge>
-            </CardContent>
-          </Card>
-          <Card className="mb-4">
-            <CardContent>
-              <div className="flex items-center space-x-2">
-                
-                <h2 className="text-lg font-semibold">Signup Menu</h2>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Avatar>
-                  <AvatarImage src="/placeholder-user.jpg" />
-                  <AvatarFallback>AL</AvatarFallback>
-                </Avatar>
-                <span>Andrea Lim</span>
-              </div>
-              <Badge variant="secondary">Medium</Badge>
-            </CardContent>
-          </Card>
-          <Card className="mb-4">
-            <CardContent>
-              <div className="flex items-center space-x-2">
-              
-                <h2 className="text-lg font-semibold">GIF Instagram Ads</h2>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Avatar>
-                  <AvatarImage src="/placeholder-user.jpg" />
-                  <AvatarFallback>NM</AvatarFallback>
-                </Avatar>
-                <span>Nate Martins</span>
-              </div>
-              <Badge variant="secondary">Medium</Badge>
-            </CardContent>
-          </Card>
-          <Card className="mb-4">
-            <CardContent>
-              <div className="flex items-center space-x-2">
-          
-                <h2 className="text-lg font-semibold">Email Signature</h2>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Avatar>
-                  <AvatarImage src="/placeholder-user.jpg" />
-                  <AvatarFallback>AL</AvatarFallback>
-                </Avatar>
-                <span>Andrea Lim</span>
-              </div>
-              <Badge variant="default">Low</Badge>
-            </CardContent>
-          </Card>
-          <Button variant="outline" className="w-full">
-            New
-          </Button>
-        </div>
+        <TaskColumn title="Em Progresso" count={tasks.inProgress.length} tasks={tasks.inProgress} />
+        <TaskColumn title="Concluídas" count={tasks.completed.length} tasks={tasks.completed} />
+        <TaskColumn title="Atrasadas" count={tasks.overdue.length} tasks={tasks.overdue} />
       </div>
     </div>
-  )
+  );
 }
 
+function TaskColumn({ title, count, tasks }) {
+  return (
+    <div>
+      <div className="flex items-center justify-between pb-2">
+        <Badge variant="secondary">{title}</Badge>
+        <span>{count}</span>
+      </div>
+      {tasks.map((task, index) => (
+        <TaskCard key={index} task={task} />
+      ))}
+      <Button variant="outline" className="w-full">Novo</Button>
+    </div>
+  );
+}
+
+function TaskCard({ task }) {
+  return (
+    <Card className="mb-4 shadow-lg rounded-lg">
+      <CardContent className="p-4">
+        <div className="mb-2">
+          <h2 className="text-lg font-bold text-primary">{task.title}</h2>
+        </div>
+        <div className="flex items-center space-x-3 mb-4">
+          <span className="text-sm text-gray-500">Ordenado por:</span>
+          <Avatar className="h-8 w-8">
+            <AvatarImage src="/placeholder-user.jpg" />
+            <AvatarFallback>{task.orderedBy.split(" ").map(n => n[0]).join("")}</AvatarFallback>
+          </Avatar>
+        </div>
+        <div className="flex items-center space-x-2 mb-4">
+          {task.executors.map((executor, index) => (
+            <Avatar key={index} className="h-8 w-8">
+              <AvatarImage src="/placeholder-user.jpg" />
+              <AvatarFallback>{executor.split(" ").map(n => n[0]).join("")}</AvatarFallback>
+            </Avatar>
+          ))}
+        </div>
+        <Badge variant={task.priorityVariant} className="text-sm px-3 py-1 rounded-full">
+          {task.priority}
+        </Badge>
+      </CardContent>
+    </Card>
+  );
+}

@@ -20,18 +20,18 @@ export default async function HomePage() {
       <Card className="flex flex-col  items-center sm:w-1/2 sm:h-3/4 sm:border border-none ">
         <CardHeader className="grid grid-col-2 gap-2 items-center">
           <CardTitle>
-            <h1>Lista de Categorias de tarefas </h1>
+            <h1>Categorias de Atividades </h1>
           </CardTitle>
 
           <CustomDialog
             trigger="ADICIONAR CATEGORIA"
-            title="Criar Categoria"
-            description="crie as categorias"
+            title="Adicionar nova categoria"
+             description="Adicione novas categorias"
           >
             <CategoryCreateForm />
           </CustomDialog>
           <CardDescription>
-            Tenha acesso a todos agrupamentos de tarefas
+          Selecione a categoria de atividades que pretende explorar
           </CardDescription>
         </CardHeader>
         <Suspense fallback={<CategorySkeleton />}>

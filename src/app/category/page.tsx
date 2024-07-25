@@ -14,31 +14,28 @@ import { indexCategories } from "@/db/queries/category";
 import { Suspense } from "react";
 
 export default async function CategoryPage() {
-  // await new Promise((resolve, reject) => {
-  //   setTimeout(resolve, 8000);
-  // });
   const categories = await indexCategories();
   return (
     <div className="flex justify-center items-center w-full sm:h-screen my-4">
-      <Card className="flex flex-col  items-center sm:w-1/2 sm:h-3/4 sm:border border-none ">
-        <CardHeader className="grid grid-col-2 gap-2 items-center">
+      <Card className="flex flex-col items-center sm:w-3/4 sm:h-3/4 sm:border border-none">
+        <CardHeader className="flex flex-col items-center mb-4">
           <CardTitle>
-            <h1>Lista de Categorias de tarefas </h1>
+            <h1 className="text-2xl font-bold">Lista de Categorias de tarefas</h1>
           </CardTitle>
 
           <CustomDialog
             trigger="ADICIONAR CATEGORIA"
             title="Criar Categoria"
-            description="crie as categorias"
+            description="Adicione novas categorias"
           >
             <CategoryCreateForm />
           </CustomDialog>
-          <CardDescription>
+          <CardDescription className="text-center">
             Tenha acesso a todos agrupamentos de tarefas
           </CardDescription>
         </CardHeader>
         <Suspense fallback={<CategorySkeleton />}>
-          <CardContent className="grid sm:grid-cols-3 gap-4 sm:gap-8 items-center">
+          <CardContent className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 items-center w-full p-4">
             {categories.map((category: { id: string; name: string }) => (
               <CategoryItem
                 id={category.id}

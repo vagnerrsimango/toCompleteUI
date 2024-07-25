@@ -18,6 +18,7 @@ import { SunIcon } from "./icons";
 import { Button } from "../ui/button";
 import { useSession, signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 
 export default function ProfileTrigger() {
   const { data: session, status } = useSession();
@@ -55,6 +56,11 @@ export default function ProfileTrigger() {
               <Button variant={"ghost"} onClick={handleChangeTheme}>
                 {" "}
                 <SunIcon />
+              </Button>
+            </MenubarItem>
+            <MenubarItem>
+            <Button variant={"ghost"} onClick={() => signOut()}>
+              <Link href="/profile" >Definições</Link>
               </Button>
             </MenubarItem>
             <MenubarItem>
